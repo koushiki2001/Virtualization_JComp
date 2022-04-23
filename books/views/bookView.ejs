@@ -80,10 +80,10 @@
 
 
   </header>
-  <table>
-    <tr>
+  <div class="row">
+    
 <% items.forEach(function(item) { %>
-    <td>
+    <div class="col">
   <div class="card" style="width: 15rem; margin:1rem;">
     <div class="card-body">
       <h5 class="card-title"><%= item.Title %></h5>
@@ -94,10 +94,10 @@
       <a href="/book/<%= item._id %>" class="card-link"><button class = "btn btn-warning">Wishlist</button></a>
     </div>
   </div>
-</td>
+</div>
   <% }); %>
-</tr>
-</table>
+
+</div>
 
   
 </div>

@@ -1,0 +1,29 @@
+{
+  "name": "virtualization_jcomp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koushiki2001/Virtualization_JComp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/koushiki2001/Virtualization_JComp/issues"
+  },
+  "homepage": "https://github.com/koushiki2001/Virtualization_JComp#readme",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "body-parser": "^1.20.0",
+    "ejs": "^3.1.7",
+    "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "mongoose": "^6.3.1",
+    "request": "^2.88.2"
+  }
+}

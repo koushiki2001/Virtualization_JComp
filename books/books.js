@@ -7,6 +7,7 @@ const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
+app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 mongoose.connect(
@@ -29,17 +30,12 @@ app.get('/book/Entry',(req,res)=>{
 });
 
 
-app.post("/book/createNew",(req,res)=> {
-    console.log(req.body);
-});
+
 app.post("/book/create",  (req, res) => {
     console.log(req.body);
     const { title, author, publisher, pages } = req.body;
 
-    const bookExists =  Book.findOne({ Title:title , Author:author });
-    if (bookExists) {
-        return res.json({ message: "Book already exists" });
-    } else{
+    
         const newBook = new Book({
             Title:title,
             Author:author,
@@ -51,7 +47,7 @@ app.post("/book/create",  (req, res) => {
 
         newBook.save()
         .then((book) => {
-            return res.json(book);
+            res.redirect('/books/view');
         })
         .catch((err) =>{
 
@@ -59,7 +55,7 @@ app.post("/book/create",  (req, res) => {
             throw err;
         })
         
-    }
+    
 });
 
 app.get('/books/view', (req,res)=> {
@@ -73,6 +69,20 @@ app.get('/books/view', (req,res)=> {
         throw err;
     })
 });
+
+
+app.get('/books/getAll', async (req,res)=> {
+    await Book.find()
+   .then(books=> {
+    //    console.log(books)
+       res.send(books)
+   })
+   .catch((err) => {
+       if(err)
+       throw err;
+   })
+});
+
 
 app.get('/book/:id',(req,res)=> {
 
