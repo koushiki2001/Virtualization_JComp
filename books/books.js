@@ -24,15 +24,19 @@ app.get('/',(req,res)=>{
     res.send("This is our main endpoint");
 });
 
-app.get('/bookEntry',(req,res)=>{
+app.get('/book/Entry',(req,res)=>{
     res.render('bookEntry');
 });
 
-app.post("/book/create", async (req, res) => {
+
+app.post("/book/createNew",(req,res)=> {
+    console.log(req.body);
+});
+app.post("/book/create",  (req, res) => {
     console.log(req.body);
     const { title, author, publisher, pages } = req.body;
 
-    const bookExists = await Book.findOne({ Title:title , Author:author });
+    const bookExists =  Book.findOne({ Title:title , Author:author });
     if (bookExists) {
         return res.json({ message: "Book already exists" });
     } else{
@@ -58,10 +62,11 @@ app.post("/book/create", async (req, res) => {
     }
 });
 
-app.get('/books/view',(req,res)=> {
-    Book.find()
-    .then((books)=> {
-        return res.json(books);
+app.get('/books/view', (req,res)=> {
+     Book.find()
+    .then(books=> {
+        console.log(books)
+        res.render("bookView",{items:books});
     })
     .catch((err) => {
         if(err)
@@ -93,7 +98,9 @@ app.delete('/book/:id',(req,res) => {
         throw err;
 
     })
-})
+});
+
+
 
 app.listen(3000,()=>{
     console.log('Server is running');
