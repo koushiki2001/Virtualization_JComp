@@ -101,7 +101,7 @@ app.get('/getcustomerDashboardDetails',(req,res) => {
 app.get('/all-customers/view',(req,res)=> {
     Customer.find()
     .then((customer)=> {
-        return res.json(customer);
+        res.send(customer);
     })
     .catch((err) => {
         if(err)

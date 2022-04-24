@@ -41,6 +41,28 @@ app.get('/admin/login',(req,res) => {
     res.render('admin_login');
 });
 
+app.get('/adminView/all-customers',async(req,res) => {
+
+    await axios.get('http://localhost:5555/all-customers/view').then((response) => {
+
+        console.log(response);
+        res.render('viewCustomerAdmin',{items:response.data});
+        
+    })
+
+
+})
+
+app.get('/adminView/all-orders',async(req,res) => {
+
+    await axios.get('http://localhost:4545/all-orders/view').then((response) => {
+        console.log(response);
+        res.render('viewOrdersAdmin',{items:response.data});
+    })
+
+
+})
+
 
 app.get('/adminDashboard',async function(req,res){
 
