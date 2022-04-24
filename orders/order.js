@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const axios = require('axios');
 
 let Order  = require('./models/orders');
+let Wishlist = require('./models/wishlist');
 
 const app = express();
 
@@ -26,12 +27,57 @@ mongoose.connect(
     }
 );
 
-app.post('/create/order',(req,res)=>{
+
+app.get('/addToWishlist/:bookid/:custid',(req,res) => {
+
+    Wishlist.findOne({CustomerID:req.params.custid}).then((cust) => {
+        if(cust)
+        {
+            Wishlist.updateOne({CustomerID:req.params.custid},{$push:{Books:req.params.bookid}})
+            .then((book) => {
+                return res.json(book);
+            })
+        }
+        else{
+            const newWishList = new Wishlist({CustomerID:req.params.custid,Books:[req.params.bookid]});
+            newWishList.save()
+            .then(()=>{
+                res.send('Saved Successfully');
+            })
+
+        }
+    })
+
+
+
+});
+
+app.get('/allOrders/:id',(req,res) => {
+
+    Order.findOne({CustomerID:req.params.id})
+    .then((orderslist) => {
+        return res.json(orderslist);
+    })
+
+});
+
+
+app.get('/viewWishlist/:id',(req,res) => {
+
+    Wishlist.findOne({CustomerID:req.params.id})
+    .then((wishlist) => {
+        return res.json(wishlist);
+    })
+
+});
+
+app.get('/create/order/:bookid/:custid',(req,res)=>{
+    const now = new Date();
     const newOrder = new Order({
-        CustomerID: mongoose.Types.ObjectId(req.body.CustomerID),
-        BookID: mongoose.Types.ObjectId(req.body.BookID),
-        InitialDate: req.body.InitialDate,
-        DeliveryDate:req.body.DeliveryDate
+        CustomerID: mongoose.Types.ObjectId(req.params.custid),
+        BookID: mongoose.Types.ObjectId(req.params.bookid),
+        InitialDate:now, 
+        DeliveryDate:now.setDate(now.getDate() + 7 )
 
     })
 

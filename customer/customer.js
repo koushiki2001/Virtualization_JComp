@@ -2,13 +2,23 @@ const express = require('express');
 const bodyparser = require('body-parser');
 const mongoose = require('mongoose');
 const ejs = require('ejs');
+const session = require('express-session');
+const axios = require('axios');
 let Customer = require('./models/customer');
 const app = express();
 
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
+app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
+app.use(
+    session({
+        secret: 'secret',
+        loggedInCustomerName: '',
+        loggedInCustomerId:'',
+    })
+  );
 
 mongoose.connect(
     "mongodb+srv://ecommerce:rupai2001@cluster0.sv7i5.mongodb.net/customerDB?retryWrites=true&w=majority",
@@ -21,7 +31,17 @@ mongoose.connect(
     }
 );
 
-app.post("/customer/create", async (req, res) => {
+
+app.get('/custRegister',(req,res)=>{
+    res.render('customer-register');
+});
+
+
+app.get('/custLogin',(req,res)=>{
+    res.render('customer-login');
+});
+
+app.post("/customer/register", async (req, res) => {
     console.log(req.body);
     const { name, age, address, phone } = req.body;
 
@@ -50,6 +70,33 @@ app.post("/customer/create", async (req, res) => {
         
     }
 });
+
+
+app.post('/customer/login',(req,res) => {
+    const {name,phone} = req.body;
+    Customer.findOne({Name:name,Phone:phone})
+    .then((cust) => {
+        if(!cust)
+res.send('User does not exist');
+else {
+    req.session.loggedInCustomerId = cust._id;
+    req.session.loggedInCustomerName = cust.Name;
+    res.redirect('/getcustomerDashboardDetails');
+    // res.send('Logged in successfully');
+}
+    })
+});
+
+
+app.get('/getcustomerDashboardDetails',(req,res) => {
+    axios.get('http://localhost:3000/books/view').then((response)=> {
+        console.log(response.data);
+        res.render('customer-dashboard',{items:response.data,id:req.session.loggedInCustomerId,name:req.session.loggedInCustomerName});
+    })
+});
+
+
+
 
 app.get('/all-customers/view',(req,res)=> {
     Customer.find()
@@ -88,6 +135,10 @@ app.delete('/customer/:id',(req,res) => {
         throw err;
 
     })
+})
+
+app.get('/',(req,res)=>{
+    res.send('This is the main endpoint');
 })
 
 app.listen(5555 , () => {

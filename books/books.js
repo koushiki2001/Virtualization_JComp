@@ -62,7 +62,8 @@ app.get('/books/view', (req,res)=> {
      Book.find()
     .then(books=> {
         console.log(books)
-        res.render("bookView",{items:books});
+        res.send(books);
+        
     })
     .catch((err) => {
         if(err)

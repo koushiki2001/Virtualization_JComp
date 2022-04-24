@@ -99,7 +99,6 @@ app.post("/adminLogin",(req,res) => {
         if(admin)
         {
             req.session.loggedIn = admin.Email;
-            // console.log(req.session.loggedIn);
             res.redirect('/adminDashboard');
         }
         else{
