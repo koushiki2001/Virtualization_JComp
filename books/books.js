@@ -90,7 +90,7 @@ app.get('/book/:id',(req,res)=> {
     Book.findById(req.params.id).then((book) => {
 
         if(book)
-        res.json(book);
+        res.render('BookEnlargedView',{item:book});
         else
         {
             res.sendStatus(404);

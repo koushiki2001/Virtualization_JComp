@@ -32,6 +32,7 @@ mongoose.connect(
 );
 
 
+
 app.get('/custRegister',(req,res)=>{
     res.render('customer-register');
 });

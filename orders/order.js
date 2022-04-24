@@ -12,6 +12,7 @@ const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
+app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 
@@ -54,8 +55,9 @@ app.get('/addToWishlist/:bookid/:custid',(req,res) => {
 
 app.get('/allOrders/:id',(req,res) => {
 
-    Order.findOne({CustomerID:req.params.id})
+    Order.find({CustomerID:req.params.id})
     .then((orderslist) => {
+        
         return res.json(orderslist);
     })
 
@@ -73,10 +75,11 @@ app.get('/viewWishlist/:id',(req,res) => {
 
 app.get('/create/order/:bookid/:custid',(req,res)=>{
     const now = new Date();
+
     const newOrder = new Order({
         CustomerID: mongoose.Types.ObjectId(req.params.custid),
         BookID: mongoose.Types.ObjectId(req.params.bookid),
-        InitialDate:now, 
+         
         DeliveryDate:now.setDate(now.getDate() + 7 )
 
     })
@@ -87,7 +90,8 @@ app.get('/create/order/:bookid/:custid',(req,res)=>{
         newOrder.save()
         .then((order)=> {
             console.log("Order has been placed successfully");
-            return res.json(order);
+            res.render('OrderPlacedReceipt',{item:order});
+            // return res.json(order);
         }).catch((err) => {
             if(err)
             throw err;

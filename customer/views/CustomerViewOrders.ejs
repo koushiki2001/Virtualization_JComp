@@ -11,19 +11,19 @@
 <table class="table">
     <thead class="thead-dark">
         <tr>
-            <th scope="col">Customer ID</th>
-            <th scope="col">Customer Name</th>
-            <th scope="col">Customer Phone</th>
-            <th scope="col">Customer Address</th>
+            <th scope="col">Order ID</th>
+            <th scope="col">Book ID</th>
+            <th scope="col">Placed On</th>
+            <th scope="col">Delivery Date</th>
           </tr>
     </thead>
     <tbody>
         <% items.forEach(function(item) { %>
       <tr>
         <th scope="row"><%= item._id %></th>
-        <td><%= item.Name %></td>
-        <td><%= item.Phone %></td>
-        <td><%= item.Address %></td>
+        <td><%= item.BookID %></td>
+        <td><%= item.InitialDate %></td>
+        <td><%= item.DeliveryDate %></td>
       </tr>
       <% }); %>
     </tbody>

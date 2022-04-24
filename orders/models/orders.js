@@ -6,9 +6,9 @@ const orderSchema = new Schema({
 
     CustomerID : {type: mongoose.SchemaTypes.ObjectId,required:true},
     BookID : {type: mongoose.SchemaTypes.ObjectId,required:true},
-    InitialDate : {type: Date,required:true},
+    InitialDate : {type: Date,default:Date.now,required:true},
     DeliveryDate : {type: Date,required:true},
-        
+   
 
 
 },
