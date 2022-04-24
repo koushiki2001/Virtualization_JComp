@@ -66,8 +66,9 @@ app.get('/allOrders/:id',(req,res) => {
 
 app.get('/viewWishlist/:id',(req,res) => {
 
-    Wishlist.findOne({CustomerID:req.params.id})
+    Wishlist.findOne({CustomerID:req.params.id},{Books:1})
     .then((wishlist) => {
+        
         return res.json(wishlist);
     })
 

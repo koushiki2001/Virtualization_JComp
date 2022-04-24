@@ -83,20 +83,18 @@
 </div>
 <div class="container py-3">
   <div class = "row" style="text-align: center;">
-    <div class = "col-lg-6">
-        <a href="http://localhost:4545/allOrders/<%= id %>" class="card-link"><button class = "btn btn-primary">View All Orders</button></a>
+    <div class = "col-lg-12">
+        <a href="/viewAllOrders" class="card-link"><button class = "btn btn-primary">View All Orders</button></a>
     </div>
 
-    <div class = "col">
-        <a href="http://localhost:4545/viewWishlist/<%= id %>" class="card-link"><button class = "btn btn-danger">View Wishlist</button></a>
-    </div>
+
 
   </div>
   <div class="row">
     
 <% items.forEach(function(item) { %>
     <div class="col">
-  <div class="card" style="width: 15rem; margin:1rem;">
+  <div class="card" style="width: 15rem; margin:1rem; text-align: center;">
     <div class="card-body">
       <h5 class="card-title"><%= item.Title %></h5>
       <h6 class="card-subtitle mb-2 text-muted">Author: <%= item.Author %></h6>

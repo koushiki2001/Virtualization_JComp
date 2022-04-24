@@ -85,6 +85,23 @@ app.get('/books/getAll', async (req,res)=> {
 });
 
 
+app.get('/bookData/:id',(req,res)=> {
+
+    Book.findById(req.params.id).then((book) => {
+
+        if(book)
+        return res.json(book);
+        else
+        {
+            res.sendStatus(404);
+        }
+    }).catch(err => {
+        if(err)
+        throw err;
+    })
+});
+
+
 app.get('/book/:id',(req,res)=> {
 
     Book.findById(req.params.id).then((book) => {

@@ -73,6 +73,24 @@ app.post("/customer/register", async (req, res) => {
 });
 
 
+app.get('/viewAllOrders',async(req,res)=>{
+
+    await axios.get('http://localhost:4545/allOrders/'+req.session.loggedInCustomerId).then((response) => {
+        console.log('Data received from books: ',response.data);
+        res.render('CustomerViewOrders',{items:response.data});
+    })
+})
+
+app.get('/viewWishlist',async(req,res)=>{
+
+    await axios.get('http://localhost:4545/viewWishlist/'+req.session.loggedInCustomerId).then((response) => {
+        console.log('Data received from books: ',response.data.Books);
+
+        
+        res.send("Found");
+    })
+})
+
 app.post('/customer/login',(req,res) => {
     const {name,phone} = req.body;
     Customer.findOne({Name:name,Phone:phone})
@@ -91,7 +109,7 @@ else {
 
 app.get('/getcustomerDashboardDetails',(req,res) => {
     axios.get('http://localhost:3000/books/view').then((response)=> {
-        console.log(response.data);
+        // console.log(response.data);
         res.render('customer-dashboard',{items:response.data,id:req.session.loggedInCustomerId,name:req.session.loggedInCustomerName});
     })
 });
