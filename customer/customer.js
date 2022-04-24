@@ -60,7 +60,7 @@ app.post("/customer/register", async (req, res) => {
 
         newUser.save()
         .then((user) => {
-            return res.json(user);
+            res.redirect('/custLogin');
         })
         .catch((err) =>{
 
