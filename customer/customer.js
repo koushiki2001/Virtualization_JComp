@@ -114,7 +114,11 @@ app.get('/getcustomerDashboardDetails',(req,res) => {
     })
 });
 
-
+app.get('/customer/Logout',(req,res) => {
+    req.session.destroy((err) => {
+        res.redirect('/custLogin') // will always fire after session is destroyed
+      })
+})
 
 
 app.get('/all-customers/view',(req,res)=> {
