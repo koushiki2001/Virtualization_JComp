@@ -45,21 +45,24 @@ app.get('/admin/login',(req,res) => {
 app.get('/adminDashboard',async function(req,res){
 
     await axios.get('http://localhost:3000/books/getAll').then((response) => {
-    console.log(response);
-    // const books = [] ;
-    // response.forEach(element => {
-    //     const book = { 
-    //         Title:element.Title,
-    //         Author:element.Author,
-    //         Publisher:element.Publisher,
-    //         Pages:element.Pages
+    // console.log(response.data);
+    const books = [] ;
+    response.data.forEach(element => {
+        const book = {
+            ID:element._id, 
+            Title:element.Title,
+            Author:element.Author,
+            Publisher:element.Publisher,
+            Pages:element.Pages
 
-    //     }
+        }
 
-    //     books.push(book);
+        books.push(book);
         
-    // });
+    });
+    res.render('adminDashboard',{items:books,id:req.session.loggedIn});
     // return res.json(books);
+    
     })
       
   });

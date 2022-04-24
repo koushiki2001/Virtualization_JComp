@@ -100,7 +100,7 @@ app.get('/book/:id',(req,res)=> {
     })
 });
 
-app.delete('/book/:id',(req,res) => {
+app.get('/bookdelete/:id',(req,res) => {
     Book.findByIdAndRemove(req.params.id).then(() => {
         res.send('Book removed successfully');
     }).catch((err) => {
