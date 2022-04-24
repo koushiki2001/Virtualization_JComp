@@ -47,7 +47,7 @@ app.post("/book/create",  (req, res) => {
 
         newBook.save()
         .then((book) => {
-            res.redirect('/books/view');
+            res.redirect('http://localhost:5000/adminDashboard');
         })
         .catch((err) =>{
 

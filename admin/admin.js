@@ -60,8 +60,9 @@ app.get('/adminDashboard',async function(req,res){
         books.push(book);
         
     });
+    console.log(req.session.loggedIn);
     res.render('adminDashboard',{items:books,id:req.session.loggedIn});
-    // return res.json(books);
+    
     
     })
       
@@ -93,19 +94,25 @@ app.post('/registerAdmin',(req,res) => {
 app.post("/adminLogin",(req,res) => {
     const {email , password} = req.body;
 
-    Admin.find({Email:email,Password:password})
+    Admin.findOne({Email:email,Password:password})
     .then((admin) => {
         if(admin)
         {
             req.session.loggedIn = admin.Email;
+            // console.log(req.session.loggedIn);
             res.redirect('/adminDashboard');
         }
         else{
             res.send('User does not exist');
         }
     })
-})
+});
 
+app.get('/admin/Logout',(req,res) => {
+    req.session.destroy((err) => {
+        res.redirect('/admin/login') // will always fire after session is destroyed
+      })
+})
 
 app.listen(5000,()=>{
     console.log('Server is running');
